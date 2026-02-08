@@ -1,0 +1,22 @@
+const { createClient } = require('@supabase/supabase-js');
+const dotenv = require('dotenv');
+
+dotenv.config();
+
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_ANON_KEY || process.env.SUPABASE_KEY;
+
+if (!supabaseUrl || !supabaseKey) {
+    console.error('CRITICAL ERROR: Supabase URL or Key is missing in environment variables.');
+    console.error('Please ensure server/.env contains SUPABASE_URL and SUPABASE_ANON_KEY');
+} else {
+    console.log('Supabase client initialized with URL:', supabaseUrl);
+}
+
+if (!supabaseUrl || !supabaseKey) {
+    console.error('Supabase URL or Key is missing in environment variables.');
+}
+
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+module.exports = supabase;
