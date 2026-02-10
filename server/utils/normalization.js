@@ -15,12 +15,16 @@ function normalizeUrl(url) {
         }
 
         // Construct canonical URL
-        // We keep protocol and host, but simplify the rest
-        let canonical = `${urlObj.protocol}//${urlObj.hostname}${pathname}${urlObj.search}`;
+        // We lowercase the protocol and host, but PRESERVE case for pathname and search
+        const protocol = urlObj.protocol.toLowerCase();
+        const host = urlObj.hostname.toLowerCase();
 
-        return canonical.toLowerCase().trim();
+        let canonical = `${protocol}//${host}${pathname}${urlObj.search}`;
+
+        return canonical.trim();
     } catch (e) {
-        return url.toLowerCase().trim();
+        // Fallback: trim but don't lowercase everything, as it might be a valid but unusual URL
+        return url.trim();
     }
 }
 
