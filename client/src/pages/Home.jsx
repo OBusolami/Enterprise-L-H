@@ -12,7 +12,8 @@ const Home = () => {
     const fetchResources = async () => {
         setLoading(true);
         try {
-            let url = 'http://localhost:5000/api/resources';
+            const apiUrl = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:5000');
+            let url = `${apiUrl}/api/resources`;
             const params = new URLSearchParams();
             if (filters.search) params.append('search', filters.search);
             if (filters.category && filters.category !== 'All') params.append('category', filters.category);
