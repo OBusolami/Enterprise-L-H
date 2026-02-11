@@ -19,6 +19,7 @@ const teamRoutes = require('./routes/teams');
 
 app.use('/api/resources', resourceRoutes);
 app.use('/api/teams', teamRoutes);
+app.use('/api/auth', require('./routes/auth'));
 // Re-using the logic from resources router for standalone metadata endpoint if preferred, 
 // or access it via /api/resources/metadata if structured that way. 
 // However, in my resources.js implementation, I put /metadata INSIDE resourceRoutes.
