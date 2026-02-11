@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
             query = query.eq('team_id', team_id);
         }
 
-        if (category && category !== 'All') { // 'All' check to be safe
+        if (category && category !== 'All') {
             query = query.eq('category', category);
         }
 
@@ -27,11 +27,8 @@ router.get('/', async (req, res) => {
         }
 
         if (search) {
-            // Supabase 'ilike' (case-insensitive)
-            // Searching title OR summary OR context_note
-            // Syntax: .or('col1.ilike.%val%,col2.ilike.%val%')
             const term = `%${search}%`;
-            query = query.or(`title.ilike.${term},summary.ilike.${term},context_note.ilike.${term},category.ilike.${term}`);
+            query = query.or(`title.ilike.${term},summary.ilike.${term},context_note.ilike.${term}`);
         }
 
         const { data, error } = await query;
@@ -70,8 +67,6 @@ router.post('/', async (req, res) => {
         }
 
         // 2. Fetch metadata if title/summary missing
-        // This block is now less likely to be hit if title/summary are required,
-        // but kept for potential future flexibility or if client-side doesn't provide them.
         if (!title || !summary) {
             const metadata = await fetchMetadata(url);
             if (metadata) {
@@ -82,7 +77,7 @@ router.post('/', async (req, res) => {
 
         // 3. Insert into Supabase
         const resourceData = {
-            url: normalizedUrl, // Store normalized version
+            url: normalizedUrl,
             title: title || 'Untitled Resource',
             summary,
             context_note: personal_context,
@@ -133,6 +128,96 @@ router.delete('/:id', async (req, res) => {
     } catch (error) {
         console.error('Error deleting resource:', error);
         res.status(500).json({ error: 'Failed to delete resource' });
+    }
+});
+
+// POST /api/resources/batch - Bulk create resources
+router.post('/batch', async (req, res) => {
+    try {
+        const { urls, category, type, team_id } = req.body;
+
+        if (!urls || !category || !type) {
+            return res.status(400).json({ error: 'Missing required fields' });
+        }
+
+        // Split by newlines or commas and clean up
+        const urlList = Array.isArray(urls)
+            ? urls
+            : urls.split(/[\n,]+/).map(u => u.trim()).filter(u => u && u.startsWith('http'));
+
+        if (urlList.length === 0) {
+            return res.status(400).json({ error: 'No valid URLs provided' });
+        }
+
+        const results = {
+            successful: [],
+            skipped: [],
+            failed: []
+        };
+
+        const resourcesToInsert = [];
+
+        // Process each URL
+        for (const url of urlList) {
+            try {
+                const normalizedUrl = normalizeUrl(url);
+
+                // 1. Check for duplicates in current DB
+                const { data: existingResource } = await supabase
+                    .from('resources')
+                    .select('url')
+                    .eq('url', normalizedUrl)
+                    .maybeSingle();
+
+                if (existingResource) {
+                    results.skipped.push({ url, reason: 'Already exists' });
+                    continue;
+                }
+
+                // 2. Fetch metadata
+                const metadata = await fetchMetadata(url);
+
+                resourcesToInsert.push({
+                    url: normalizedUrl,
+                    title: metadata?.title || 'Untitled Resource',
+                    summary: metadata?.description || '',
+                    category,
+                    type,
+                    status: 'active',
+                    team_id: team_id || null
+                });
+
+            } catch (err) {
+                console.error(`Error processing URL ${url}:`, err);
+                results.failed.push({ url, error: err.message });
+            }
+        }
+
+        // 3. Bulk insert if we have any
+        if (resourcesToInsert.length > 0) {
+            const { data, error } = await supabase
+                .from('resources')
+                .insert(resourcesToInsert)
+                .select();
+
+            if (error) throw error;
+            results.successful = data;
+        }
+
+        res.status(200).json({
+            message: 'Batch processing complete',
+            summary: {
+                total: urlList.length,
+                added: resourcesToInsert.length,
+                skipped: results.skipped.length,
+                failed: results.failed.length
+            },
+            results
+        });
+
+    } catch (error) {
+        console.error('Error in batch upload:', error);
+        res.status(500).json({ error: 'Failed to process batch upload' });
     }
 });
 
