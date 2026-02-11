@@ -41,7 +41,8 @@ const ResourceForm = () => {
     useEffect(() => {
         const fetchTeams = async () => {
             try {
-                const response = await fetch('http://localhost:5000/api/teams');
+                const apiUrl = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:5000');
+                const response = await fetch(`${apiUrl}/api/teams`);
                 if (response.ok) {
                     const { data } = await response.json();
                     setTeams(data);
@@ -58,7 +59,8 @@ const ResourceForm = () => {
 
         setStatus('loading-metadata');
         try {
-            const response = await fetch(`http://localhost:5000/api/resources/metadata?url=${encodeURIComponent(formData.url)}`);
+            const apiUrl = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:5000');
+            const response = await fetch(`${apiUrl}/api/resources/metadata?url=${encodeURIComponent(formData.url)}`);
             if (response.ok) {
                 const { data } = await response.json();
                 setFormData(prev => ({
@@ -92,7 +94,8 @@ const ResourceForm = () => {
             // Clean up empty team_id before sending
             const payload = { ...formData, team_id: formData.team_id || null };
 
-            const response = await fetch('http://localhost:5000/api/resources', {
+            const apiUrl = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:5000');
+            const response = await fetch(`${apiUrl}/api/resources`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -33,7 +33,8 @@ const BulkResourceForm = () => {
     useEffect(() => {
         const fetchTeams = async () => {
             try {
-                const response = await fetch('http://localhost:5000/api/teams');
+                const apiUrl = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:5000');
+                const response = await fetch(`${apiUrl}/api/teams`);
                 if (response.ok) {
                     const { data } = await response.json();
                     setTeams(data);
@@ -54,7 +55,8 @@ const BulkResourceForm = () => {
         setReport(null);
 
         try {
-            const response = await fetch('http://localhost:5000/api/resources/batch', {
+            const apiUrl = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:5000');
+            const response = await fetch(`${apiUrl}/api/resources/batch`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

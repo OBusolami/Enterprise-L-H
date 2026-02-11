@@ -17,7 +17,8 @@ const MyCollection = () => {
     const fetchCollection = async () => {
         setLoading(true);
         try {
-            const response = await fetch(`http://localhost:5000/api/resources/collections/${MOCK_USER_ID}`);
+            const apiUrl = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:5000');
+            const response = await fetch(`${apiUrl}/api/resources/collections/${MOCK_USER_ID}`);
             if (!response.ok) throw new Error('Failed to fetch collection');
             const { data } = await response.json();
             setResources(data || []);

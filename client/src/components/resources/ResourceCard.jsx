@@ -21,7 +21,8 @@ const ResourceCard = ({ resource, onDelete }) => {
         if (!window.confirm('Are you sure you want to delete this resource?')) return;
         setIsDeleting(true);
         try {
-            const response = await fetch(`http://localhost:5000/api/resources/${id}`, {
+            const apiUrl = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:5000');
+            const response = await fetch(`${apiUrl}/api/resources/${id}`, {
                 method: 'DELETE',
             });
             if (response.ok) {
