@@ -28,6 +28,12 @@ app.use('/api/auth', require('./routes/auth'));
 // yields /api/resources/metadata.
 // This works perfectly.
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+// Export the Express API
+module.exports = app;
+
+// Only listen if run directly (local development)
+if (require.main === module) {
+    app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}`);
+    });
+}
