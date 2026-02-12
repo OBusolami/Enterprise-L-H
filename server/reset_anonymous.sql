@@ -15,7 +15,6 @@ ALTER TABLE public.app_users DISABLE ROW LEVEL SECURITY;
 -- Grant all permissions to the 'anon' role so the frontend/backend can work.
 GRANT ALL ON TABLE public.resources TO anon;
 GRANT ALL ON TABLE public.teams TO anon;
-GRANT ALL ON SEQUENCE public.resources_id_seq TO anon; -- Allow ID generation
 
 -- 4. CLEAN UP FOREIGN KEYS (Optional but good for anonymity)
 ALTER TABLE public.resources ALTER COLUMN submitter_id DROP NOT NULL;
