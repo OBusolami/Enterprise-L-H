@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X, Loader2 } from 'lucide-react';
+import { getApiUrl } from '../../api/config';
 
 const AddTeamModal = ({ isOpen, onClose, onTeamAdded }) => {
     const [name, setName] = useState('');
@@ -15,8 +16,7 @@ const AddTeamModal = ({ isOpen, onClose, onTeamAdded }) => {
         setError('');
 
         try {
-            const apiUrl = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:5000');
-            const response = await fetch(`${apiUrl}/api/teams`, {
+            const response = await fetch(`${getApiUrl()}/api/teams`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name, description }),

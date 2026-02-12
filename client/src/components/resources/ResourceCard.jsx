@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ExternalLink, Trash2, Loader2, Bookmark } from 'lucide-react';
 import { cn } from '../../lib/utils';
+import { getApiUrl } from '../../api/config';
 
 const ResourceCard = ({ resource, onDelete }) => {
     const {
@@ -21,8 +22,7 @@ const ResourceCard = ({ resource, onDelete }) => {
         if (!window.confirm('Are you sure you want to delete this resource?')) return;
         setIsDeleting(true);
         try {
-            const apiUrl = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:5000');
-            const response = await fetch(`${apiUrl}/api/resources/${id}`, {
+            const response = await fetch(`${getApiUrl()}/api/resources/${id}`, {
                 method: 'DELETE',
             });
             if (response.ok) {

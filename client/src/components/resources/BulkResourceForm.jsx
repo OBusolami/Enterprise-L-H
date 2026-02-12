@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Loader2, ListPlus, AlertCircle, CheckCircle, Info } from 'lucide-react';
 import { cn } from '../../lib/utils';
+import { getApiUrl } from '../../api/config';
 
 const CATEGORIES = [
     'AI & Machine Learning',
@@ -33,8 +34,7 @@ const BulkResourceForm = () => {
     useEffect(() => {
         const fetchTeams = async () => {
             try {
-                const apiUrl = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:5000');
-                const response = await fetch(`${apiUrl}/api/teams`);
+                const response = await fetch(`${getApiUrl()}/api/teams`);
                 if (response.ok) {
                     const { data } = await response.json();
                     setTeams(data);
@@ -55,8 +55,7 @@ const BulkResourceForm = () => {
         setReport(null);
 
         try {
-            const apiUrl = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:5000');
-            const response = await fetch(`${apiUrl}/api/resources/batch`, {
+            const response = await fetch(`${getApiUrl()}/api/resources/batch`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

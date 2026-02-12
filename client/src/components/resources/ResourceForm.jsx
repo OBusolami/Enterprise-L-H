@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Loader2, Link as LinkIcon, AlertCircle, CheckCircle } from 'lucide-react';
 import { cn } from '../../lib/utils';
+import { getApiUrl } from '../../api/config';
 
 const CATEGORIES = [
     'AI & Machine Learning',
@@ -41,8 +42,7 @@ const ResourceForm = () => {
     useEffect(() => {
         const fetchTeams = async () => {
             try {
-                const apiUrl = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:5000');
-                const response = await fetch(`${apiUrl}/api/teams`);
+                const response = await fetch(`${getApiUrl()}/api/teams`);
                 if (response.ok) {
                     const { data } = await response.json();
                     setTeams(data);
@@ -59,8 +59,7 @@ const ResourceForm = () => {
 
         setStatus('loading-metadata');
         try {
-            const apiUrl = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:5000');
-            const response = await fetch(`${apiUrl}/api/resources/metadata?url=${encodeURIComponent(formData.url)}`);
+            const response = await fetch(`${getApiUrl()}/api/resources/metadata?url=${encodeURIComponent(formData.url)}`);
             if (response.ok) {
                 const { data } = await response.json();
                 setFormData(prev => ({
@@ -94,8 +93,7 @@ const ResourceForm = () => {
             // Clean up empty team_id before sending
             const payload = { ...formData, team_id: formData.team_id || null };
 
-            const apiUrl = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:5000');
-            const response = await fetch(`${apiUrl}/api/resources`, {
+            const response = await fetch(`${getApiUrl()}/api/resources`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

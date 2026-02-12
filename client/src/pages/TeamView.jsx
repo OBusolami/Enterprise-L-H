@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Loader2 } from 'lucide-react';
 import ResourceCard from '../components/resources/ResourceCard';
+import { getApiUrl } from '../api/config';
 
 const TeamView = () => {
     const { teamId } = useParams();
@@ -16,14 +17,13 @@ const TeamView = () => {
             setError(null);
             try {
                 // Fetch team details
-                const apiUrl = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:5000');
-                const teamRes = await fetch(`${apiUrl}/api/teams/${teamId}`);
+                const teamRes = await fetch(`${getApiUrl()}/api/teams/${teamId}`);
                 if (!teamRes.ok) throw new Error('Failed to fetch team details');
                 const teamData = await teamRes.json();
                 setTeam(teamData.data);
 
                 // Fetch team resources
-                const resourcesRes = await fetch(`${apiUrl}/api/resources?team_id=${teamId}`);
+                const resourcesRes = await fetch(`${getApiUrl()}/api/resources?team_id=${teamId}`);
                 if (!resourcesRes.ok) throw new Error('Failed to fetch team resources');
                 const resourcesData = await resourcesRes.json();
                 setResources(resourcesData.data);
