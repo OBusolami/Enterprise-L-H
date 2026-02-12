@@ -1,7 +1,8 @@
 export const getApiUrl = () => {
-    // We now use a proxy in vite.config.js for local dev, 
-    // and Vercel routing for production. Both use relative paths.
-    const url = '';
-    console.log('Using API Base URL:', url || '(relative)');
-    return url;
+    // Point to the live Render backend for global access
+    const renderUrl = 'https://enterprise-l-h.onrender.com';
+
+    // In local development, we can still use localhost if needed, 
+    // but the Render URL works everywhere now.
+    return import.meta.env.PROD ? renderUrl : 'http://localhost:5000';
 };
