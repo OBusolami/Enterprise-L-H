@@ -11,7 +11,18 @@ app.use(cors());
 app.use(express.json());
 
 app.get('/', (req, res) => {
-    res.send('Learning Hub API is running');
+    res.json({
+        message: 'Learning Hub API is running',
+        env: {
+            hasSupabaseUrl: !!process.env.SUPABASE_URL,
+            hasSupabaseKey: !!process.env.SUPABASE_ANON_KEY,
+            prod: process.env.NODE_ENV === 'production'
+        }
+    });
+});
+
+app.get('/api/health', (req, res) => {
+    res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
 const resourceRoutes = require('./routes/resources');
