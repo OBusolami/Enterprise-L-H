@@ -4,9 +4,6 @@ import Layout from './components/layout/Layout';
 import Home from './pages/Home';
 import SubmitResource from './pages/SubmitResource';
 import TeamView from './pages/TeamView';
-import Home from './pages/Home';
-import SubmitResource from './pages/SubmitResource';
-import TeamView from './pages/TeamView';
 
 function App() {
   return (

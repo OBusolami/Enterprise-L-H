@@ -1,0 +1,96 @@
+﻿[dotenv@17.2.4] injecting env (0) from .env -- tip: ≡ƒæÑ sync secrets across teammates & machines: https://dotenvx.com/ops
+[dotenv@17.2.4] injecting env (0) from .env -- tip: ≡ƒöÉ encrypt with Dotenvx: https://dotenvx.com
+node : CRITICAL 
+ERROR: Supabase URL 
+or Key is missing in 
+environment 
+variables.
+At line:1 char:1
++ node 
+server/index.js 2>&1 
+| Out-File -FilePath 
+server_error_full.log
+  ...
++ ~~~~~~~~~~~~~~~~~~~
+~~~~~~
+    + CategoryInfo   
+           : NotSpe  
+  cified: (CRITICA   
+ L ERROR:...ment     
+variables.:Strin    
+g) [], RemoteExc    
+eption
+    + FullyQualified 
+   ErrorId : Native  
+  CommandError
+ 
+Please ensure 
+server/.env contains 
+SUPABASE_URL and 
+SUPABASE_ANON_KEY
+Supabase URL or Key 
+is missing in 
+environment 
+variables.
+C:\Users\user\Documen
+ts\Enterprise L H\ser
+ver\node_modules\@sup
+abase\supabase-js\dis
+t\index.cjs:146
+	if (!trimmedUrl) 
+throw new 
+Error("supabaseUrl 
+is required.");
+	                 ^
+
+Error: supabaseUrl 
+is required.
+    at 
+validateSupabaseUrl (
+C:\Users\user\Documen
+ts\Enterprise L H\ser
+ver\node_modules\@sup
+abase\supabase-js\dis
+t\index.cjs:146:25)
+    at new 
+SupabaseClient (C:\Us
+ers\user\Documents\En
+terprise L H\server\n
+ode_modules\@supabase
+\supabase-js\dist\ind
+ex.cjs:195:19)
+    at createClient (
+C:\Users\user\Documen
+ts\Enterprise L H\ser
+ver\node_modules\@sup
+abase\supabase-js\dis
+t\index.cjs:388:9)
+    at 
+Object.<anonymous> (C
+:\Users\user\Document
+s\Enterprise L H\serv
+er\supabaseClient.js:
+20:18)
+    at 
+Module._compile (node
+:internal/modules/cjs
+/loader:1761:14)
+    at Object..js (no
+de:internal/modules/c
+js/loader:1893:10)
+    at Module.load (n
+ode:internal/modules/
+cjs/loader:1481:32)
+    at Module._load (
+node:internal/modules
+/cjs/loader:1300:12)
+    at TracingChannel
+.traceSync (node:diag
+nostics_channel:328:1
+4)
+    at 
+wrapModuleLoad (node:
+internal/modules/cjs/
+loader:245:24)
+
+Node.js v24.13.0
