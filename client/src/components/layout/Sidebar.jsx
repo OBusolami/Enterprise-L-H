@@ -1,20 +1,19 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { BookOpen, PlusCircle, Users, Plus, LogOut, User as UserIcon } from 'lucide-react';
-import { useAuth } from '../../context/AuthContext';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 
 const Sidebar = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const { user, logout } = useAuth();
+    const { logout } = { logout: () => { } }; // Temporary placeholder if needed, or just remove usages
     const [teams, setTeams] = useState([]);
     const [newTeamName, setNewTeamName] = useState('');
     const [isAddingTeam, setIsAddingTeam] = useState(false);
 
     useEffect(() => {
         fetchTeams();
-    }, [user]);
+    }, []);
 
     const fetchTeams = async () => {
         try {
@@ -86,17 +85,7 @@ const Sidebar = () => {
                                 <span>Share Resource</span>
                             </Link>
                         </li>
-                        {!user && (
-                            <li>
-                                <Link
-                                    to="/login"
-                                    className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors text-slate-600 hover:bg-slate-50`}
-                                >
-                                    <UserIcon className="w-5 h-5" />
-                                    <span>Sign In</span>
-                                </Link>
-                            </li>
-                        )}
+
                     </ul>
                 </div>
 
@@ -143,37 +132,7 @@ const Sidebar = () => {
 
 
             <div className="p-4 border-t border-slate-100 bg-slate-50">
-                {user ? (
-                    <div className="flex flex-col gap-2">
-                        <div className="flex items-center gap-3 px-2">
-                            <div className="w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-sm font-semibold">
-                                {user.username ? user.username.charAt(0).toUpperCase() : 'U'}
-                            </div>
-                            <div className="flex-1 overflow-hidden">
-                                <p className="text-sm font-medium text-slate-700 truncate">{user.username}</p>
-                                <p className="text-xs text-slate-500 truncate">{user.email}</p>
-                            </div>
-                        </div>
-                        <button
-                            onClick={() => {
-                                logout();
-                                navigate('/login');
-                            }}
-                            className="flex items-center gap-2 px-2 py-1.5 text-xs font-medium text-slate-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors w-full"
-                        >
-                            <LogOut className="w-3.5 h-3.5" />
-                            Sign Out
-                        </button>
-                    </div>
-                ) : (
-                    <Link
-                        to="/login"
-                        className="flex items-center justify-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition-colors shadow-sm shadow-indigo-200"
-                    >
-                        <UserIcon className="w-4 h-4" />
-                        Sign In
-                    </Link>
-                )}
+                <p className="text-xs text-slate-400 text-center">Learning Hub v1.0</p>
             </div>
         </aside>
     );

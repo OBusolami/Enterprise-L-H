@@ -81,14 +81,6 @@ const ResourceCard = ({ resource, onDelete }) => {
                 </div>
             )}
 
-            {/* Footer: Submitter Info */}
-            <div className="flex items-center justify-between pt-3 mt-auto border-t border-gray-50">
-                <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 rounded-full bg-slate-200 flex items-center justify-center text-[10px] font-bold text-slate-600 uppercase">
-                        OE
-                    </div>
-                </div>
-            </div>
         </div>
     );
 };
