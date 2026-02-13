@@ -15,8 +15,7 @@ app.get('/', (req, res) => {
     res.json({
         message: 'Learning Hub API is running',
         env: {
-            hasSupabaseUrl: !!process.env.SUPABASE_URL,
-            hasSupabaseKey: !!process.env.SUPABASE_ANON_KEY,
+            supabaseUrl: process.env.SUPABASE_URL ? process.env.SUPABASE_URL.substring(0, 20) + '...' : 'MISSING',
             prod: process.env.NODE_ENV === 'production'
         }
     });
