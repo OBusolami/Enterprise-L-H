@@ -6,6 +6,7 @@ import SubmitResource from './pages/SubmitResource';
 import TeamView from './pages/TeamView';
 import ArchivedView from './pages/ArchivedView';
 
+// Redploy to ensure latest routing rules and logic are active
 function App() {
   return (
     <Routes>

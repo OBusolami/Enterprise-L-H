@@ -1,6 +1,6 @@
 const supabase = require('./server/supabaseClient');
 
-async function listAllStatuses() {
+async function listAll() {
     const { data, error } = await supabase
         .from('resources')
         .select('id, title, status');
@@ -10,10 +10,14 @@ async function listAllStatuses() {
         return;
     }
 
-    console.log(`Found ${data.length} resources:`);
+    console.log('--- ALL RESOURCES ---');
     data.forEach(r => {
-        console.log(`- ID: ${r.id}, Status: ${r.status}, Title: ${r.title}`);
+        console.log(`[${r.status}] ${r.title} (${r.id})`);
     });
+
+    const activeCount = data.filter(r => r.status === 'active').length;
+    const archivedCount = data.filter(r => r.status === 'archived').length;
+    console.log(`\nSummary: Active: ${activeCount}, Archived: ${archivedCount}, Total: ${data.length}`);
 }
 
-listAllStatuses();
+listAll();
