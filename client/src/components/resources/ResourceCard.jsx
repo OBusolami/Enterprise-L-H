@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ExternalLink, Trash2, Loader2, Bookmark, MoreVertical, Archive } from 'lucide-react';
+import { ExternalLink, Loader2, Bookmark, MoreVertical, Archive } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { getApiUrl } from '../../api/config';
 import { useEffect, useRef } from 'react';
