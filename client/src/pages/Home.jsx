@@ -45,7 +45,6 @@ const Home = () => {
     return (
         <div className="space-y-8">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <h1 className="text-3xl font-bold text-gray-900">Discover Resources</h1>
                 <SearchFilterBar filters={filters} onFilterChange={setFilters} />
             </div>
 
