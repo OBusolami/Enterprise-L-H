@@ -203,7 +203,7 @@ const BulkResourceForm = () => {
                     ) : (
                         <span className="flex items-center gap-2">
                             <ListPlus className="w-4 h-4" />
-                            Bulk Share Resources
+                            Bulk Add Resources
                         </span>
                     )}
                 </button>

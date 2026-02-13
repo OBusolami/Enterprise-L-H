@@ -9,8 +9,8 @@ const SubmitResource = () => {
     return (
         <div className="max-w-4xl mx-auto py-8 px-4">
             <div className="mb-8">
-                <h1 className="text-3xl font-bold text-gray-900">Share Resources</h1>
-                <p className="text-gray-600 mt-2">Help the team by sharing valuable learning content.</p>
+                <h1 className="text-3xl font-bold text-gray-900">Add Resources</h1>
+                <p className="text-gray-600 mt-2">Help the team by adding valuable learning content.</p>
             </div>
 
             {/* Mode Toggle */}
@@ -18,8 +18,8 @@ const SubmitResource = () => {
                 <button
                     onClick={() => setMode('single')}
                     className={`flex items-center gap-2 px-6 py-2.5 rounded-lg border transition-all ${mode === 'single'
-                            ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
-                            : 'bg-white text-gray-600 border-gray-200 hover:border-blue-300 hover:bg-blue-50'
+                        ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
+                        : 'bg-white text-gray-600 border-gray-200 hover:border-blue-300 hover:bg-blue-50'
                         }`}
                 >
                     <PlusCircle className="w-4 h-4" />
@@ -28,8 +28,8 @@ const SubmitResource = () => {
                 <button
                     onClick={() => setMode('bulk')}
                     className={`flex items-center gap-2 px-6 py-2.5 rounded-lg border transition-all ${mode === 'bulk'
-                            ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
-                            : 'bg-white text-gray-600 border-gray-200 hover:border-blue-300 hover:bg-blue-50'
+                        ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
+                        : 'bg-white text-gray-600 border-gray-200 hover:border-blue-300 hover:bg-blue-50'
                         }`}
                 >
                     <ListPlus className="w-4 h-4" />

@@ -7,7 +7,6 @@ import { getApiUrl } from '../../api/config';
 const Sidebar = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const { logout } = { logout: () => { } }; // Temporary placeholder if needed, or just remove usages
     const [teams, setTeams] = useState([]);
     const [newTeamName, setNewTeamName] = useState('');
     const [isAddingTeam, setIsAddingTeam] = useState(false);
@@ -45,9 +44,27 @@ const Sidebar = () => {
     const fetchTeams = async () => {
         try {
             const response = await axios.get(`${getApiUrl()}/api/teams`);
-            setTeams(response.data.data);
+            const processedTeams = response.data.data.map(team => ({
+                ...team,
+                count: team.resource_count?.[0]?.count || 0
+            }));
+            setTeams(processedTeams);
         } catch (error) {
             console.error('Failed to fetch teams', error);
+        }
+    };
+
+    const handleCreateTeam = async (e) => {
+        e.preventDefault();
+        if (!newTeamName.trim()) return;
+
+        try {
+            await axios.post(`${getApiUrl()}/api/teams`, { name: newTeamName });
+            setNewTeamName('');
+            setIsAddingTeam(false);
+            fetchTeams();
+        } catch (error) {
+            console.error('Failed to create team', error);
         }
     };
 
@@ -126,7 +143,7 @@ const Sidebar = () => {
                                     }`}
                             >
                                 <PlusCircle className="w-5 h-5" />
-                                <span>Share Resource</span>
+                                <span>Add Resources</span>
                             </Link>
                         </li>
 
@@ -176,7 +193,12 @@ const Sidebar = () => {
                                         }`}>
                                         {team.name.charAt(0).toUpperCase()}
                                     </div>
-                                    <span className="truncate text-sm">{team.name}</span>
+                                    <span className="truncate text-sm flex-1">{team.name}</span>
+                                    {team.count > 0 && (
+                                        <span className="text-[10px] font-bold bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded-full group-hover:bg-indigo-100 group-hover:text-indigo-600 transition-colors">
+                                            {team.count}
+                                        </span>
+                                    )}
                                 </button>
                             </li>
                         ))}

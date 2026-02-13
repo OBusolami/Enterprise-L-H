@@ -7,7 +7,10 @@ router.get('/', async (req, res) => {
     try {
         const { data, error } = await supabase
             .from('teams')
-            .select('*')
+            .select(`
+                *,
+                resource_count:resources(count)
+            `)
             .order('name', { ascending: true });
 
         if (error) throw error;

@@ -103,7 +103,7 @@ const ResourceForm = () => {
 
             if (response.status === 409) {
                 const data = await response.json();
-                throw new Error(data.error || 'This resource has already been shared.');
+                throw new Error(data.error || 'This resource has already been added.');
             }
             if (!response.ok) throw new Error('Failed to submit resource');
 
@@ -119,7 +119,7 @@ const ResourceForm = () => {
         return (
             <div className="flex flex-col items-center justify-center py-12 text-center">
                 <CheckCircle className="w-16 h-16 text-green-500 mb-4" />
-                <h3 className="text-2xl font-bold text-gray-900">Resource Shared!</h3>
+                <h3 className="text-2xl font-bold text-gray-900">Resource Added!</h3>
                 <p className="text-gray-500 mt-2">Thanks for contributing to the hub.</p>
             </div>
         );
@@ -268,10 +268,10 @@ const ResourceForm = () => {
                     {status === 'submitting' ? (
                         <>
                             <Loader2 className="animate-spin -ml-1 mr-2 h-4 w-4" />
-                            Sharing...
+                            Adding...
                         </>
                     ) : (
-                        'Share Resource'
+                        'Add Resource'
                     )}
                 </button>
             </div>
