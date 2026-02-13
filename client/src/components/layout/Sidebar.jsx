@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { BookOpen, PlusCircle, Users, Plus, LogOut, User as UserIcon, Trash2 } from 'lucide-react';
+import { BookOpen, PlusCircle, Users, Plus, LogOut, User as UserIcon, Trash2, Archive } from 'lucide-react';
 import axios from 'axios';
 import { useState, useEffect, useRef } from 'react';
 import { getApiUrl } from '../../api/config';
@@ -146,8 +146,20 @@ const Sidebar = () => {
                                 <span>Add Resources</span>
                             </Link>
                         </li>
-
                     </ul>
+                </div>
+
+                <div className="pt-4 border-t border-slate-100 mt-auto">
+                    <Link
+                        to="/archived"
+                        className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${isActive('/archived')
+                            ? 'bg-amber-50 text-amber-600 font-medium'
+                            : 'text-slate-600 hover:bg-slate-50'
+                            }`}
+                    >
+                        <Archive className="w-5 h-5" />
+                        <span>Archived Resources</span>
+                    </Link>
                 </div>
 
                 <div>

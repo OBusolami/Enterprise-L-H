@@ -7,11 +7,11 @@ const { fetchMetadata } = require('../utils/metadata');
 // GET /api/resources - Fetch all resources (active)
 router.get('/', async (req, res) => {
     try {
-        const { team_id, category, type, search } = req.query;
+        const { team_id, category, type, search, status = 'active' } = req.query;
         let query = supabase
             .from('resources')
             .select('*')
-            .eq('status', 'active')
+            .eq('status', status)
             .order('created_at', { ascending: false });
 
         if (team_id) {
@@ -113,7 +113,32 @@ router.get('/metadata', async (req, res) => {
     res.json({ data: metadata });
 });
 
-// DELETE /api/resources/:id - Delete a resource
+// PATCH /api/resources/:id/status - Update resource status (e.g., archive/active)
+router.patch('/:id/status', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { status } = req.body;
+
+        if (!status) {
+            return res.status(400).json({ error: 'Status is required' });
+        }
+
+        const { data, error } = await supabase
+            .from('resources')
+            .update({ status })
+            .eq('id', id)
+            .select();
+
+        if (error) throw error;
+
+        res.json({ message: `Resource status updated to ${status}`, data: data[0] });
+    } catch (error) {
+        console.error('Error updating resource status:', error);
+        res.status(500).json({ error: 'Failed to update resource status' });
+    }
+});
+
+// DELETE /api/resources/:id - Permanent deletion
 router.delete('/:id', async (req, res) => {
     try {
         const { id } = req.params;
@@ -124,7 +149,7 @@ router.delete('/:id', async (req, res) => {
 
         if (error) throw error;
 
-        res.json({ message: 'Resource deleted successfully' });
+        res.json({ message: 'Resource permanently deleted' });
     } catch (error) {
         console.error('Error deleting resource:', error);
         res.status(500).json({ error: 'Failed to delete resource' });

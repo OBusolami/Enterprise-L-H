@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ExternalLink, Trash2, Loader2, Bookmark, MoreVertical } from 'lucide-react';
+import { ExternalLink, Trash2, Loader2, Bookmark, MoreVertical, Archive } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { getApiUrl } from '../../api/config';
 import { useEffect, useRef } from 'react';
@@ -33,9 +33,33 @@ const ResourceCard = ({ resource, onDelete }) => {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, [contextMenu]);
 
-    const handleDelete = async (e) => {
+    const handleArchive = async (e) => {
         e.stopPropagation();
-        if (!window.confirm('Are you sure you want to delete this resource?')) {
+        if (!window.confirm('Archive this resource? It will be moved to the Archived section.')) {
+            setContextMenu({ ...contextMenu, visible: false });
+            return;
+        }
+        setIsDeleting(true);
+        setContextMenu({ ...contextMenu, visible: false });
+        try {
+            const response = await fetch(`${getApiUrl()}/api/resources/${id}/status`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: 'archived' })
+            });
+            if (response.ok) {
+                if (onDelete) onDelete(id);
+            }
+        } catch (err) {
+            console.error('Archive error:', err);
+        } finally {
+            setIsDeleting(false);
+        }
+    };
+
+    const handlePermanentDelete = async (e) => {
+        e.stopPropagation();
+        if (!window.confirm('Permanently delete this resource? This cannot be undone.')) {
             setContextMenu({ ...contextMenu, visible: false });
             return;
         }
@@ -114,15 +138,47 @@ const ResourceCard = ({ resource, onDelete }) => {
             {contextMenu.visible && (
                 <div
                     ref={menuRef}
-                    className="fixed z-50 bg-white border border-slate-200 rounded-lg shadow-xl py-1 min-w-[160px] animate-in fade-in zoom-in duration-100"
+                    className="fixed z-50 bg-white border border-slate-200 rounded-lg shadow-xl py-1 min-w-[170px] animate-in fade-in zoom-in duration-100"
                     style={{ top: contextMenu.y, left: contextMenu.x }}
                 >
+                    {resource.status !== 'archived' ? (
+                        <button
+                            onClick={handleArchive}
+                            className="w-full flex items-center gap-2 px-3 py-2 text-sm text-slate-600 hover:bg-slate-50 transition-colors"
+                        >
+                            <Archive className="w-4 h-4" />
+                            <span>Archive Resource</span>
+                        </button>
+                    ) : (
+                        <button
+                            onClick={async (e) => {
+                                e.stopPropagation();
+                                setIsDeleting(true);
+                                try {
+                                    await fetch(`${getApiUrl()}/api/resources/${id}/status`, {
+                                        method: 'PATCH',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify({ status: 'active' })
+                                    });
+                                    if (onDelete) onDelete(id);
+                                } catch (err) {
+                                    console.error('Restore error:', err);
+                                } finally {
+                                    setIsDeleting(false);
+                                }
+                            }}
+                            className="w-full flex items-center gap-2 px-3 py-2 text-sm text-green-600 hover:bg-green-50 transition-colors"
+                        >
+                            <Archive className="w-4 h-4" />
+                            <span>Restore Resource</span>
+                        </button>
+                    )}
                     <button
-                        onClick={handleDelete}
+                        onClick={handlePermanentDelete}
                         className="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
                     >
                         <Trash2 className="w-4 h-4" />
-                        <span>Delete Resource</span>
+                        <span>Delete Permanently</span>
                     </button>
                 </div>
             )}
