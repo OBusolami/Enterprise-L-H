@@ -243,35 +243,37 @@ const ResourceCard = ({ resource, onDelete }) => {
                             <span>Archive Resource</span>
                         </button>
                     ) : (
-                        <button
-                            onClick={async (e) => {
-                                e.stopPropagation();
-                                setIsDeleting(true);
-                                try {
-                                    await fetch(`${getApiUrl()}/api/resources/${id}/status`, {
-                                        method: 'PATCH',
-                                        headers: { 'Content-Type': 'application/json' },
-                                        body: JSON.stringify({ status: 'active' })
-                                    });
-                                    if (onDelete) onDelete(id);
-                                } catch (err) {
-                                    console.error('Restore error:', err);
-                                } finally {
-                                    setIsDeleting(false);
-                                }
-                            }}
-                            className="w-full flex items-center gap-2 px-3 py-2 text-sm text-green-600 hover:bg-green-50 transition-colors"
-                        >
-                            <Archive className="w-4 h-4" />
-                            <span>Restore Resource</span>
-                        </button>
+                        <>
+                            <button
+                                onClick={async (e) => {
+                                    e.stopPropagation();
+                                    setIsDeleting(true);
+                                    try {
+                                        await fetch(`${getApiUrl()}/api/resources/${id}/status`, {
+                                            method: 'PATCH',
+                                            headers: { 'Content-Type': 'application/json' },
+                                            body: JSON.stringify({ status: 'active' })
+                                        });
+                                        if (onDelete) onDelete(id);
+                                    } catch (err) {
+                                        console.error('Restore error:', err);
+                                    } finally {
+                                        setIsDeleting(false);
+                                    }
+                                }}
+                                className="w-full flex items-center gap-2 px-3 py-2 text-sm text-green-600 hover:bg-green-50 transition-colors"
+                            >
+                                <Archive className="w-4 h-4" />
+                                <span>Restore Resource</span>
+                            </button>
+                            <button
+                                onClick={handlePermanentDelete}
+                                className="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                            >
+                                <span>Delete Permanently</span>
+                            </button>
+                        </>
                     )}
-                    <button
-                        onClick={handlePermanentDelete}
-                        className="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
-                    >
-                        <span>Delete Permanently</span>
-                    </button>
                 </div>
             )}
 
