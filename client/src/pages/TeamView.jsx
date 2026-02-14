@@ -51,8 +51,8 @@ const TeamView = () => {
 
     return (
         <div>
-            <div className="mb-8 border-b border-gray-100 pb-6">
-                <h1 className="text-3xl font-bold text-gray-900 mb-2">{team.name}</h1>
+            <div className="mb-4 sm:mb-6 border-b border-gray-100 pb-4 sm:pb-6">
+                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">{team.name}</h1>
                 {team.description && <p className="text-gray-600">{team.description}</p>}
 
                 <div className="mt-4 flex gap-4 text-sm text-gray-500">
@@ -70,7 +70,7 @@ const TeamView = () => {
                         <p className="text-gray-500">No resources shared with this team yet.</p>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-5">
                         {resources.map((resource) => (
                             <ResourceCard
                                 key={resource.id}

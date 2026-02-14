@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useState, useEffect, useRef } from 'react';
 import { getApiUrl } from '../../api/config';
 
-const Sidebar = ({ isCollapsed, onToggle }) => {
+const Sidebar = ({ isCollapsed, onToggle, isMobile = false, onNavigate }) => {
     const location = useLocation();
     const navigate = useNavigate();
     const [teams, setTeams] = useState([]);
@@ -136,6 +136,7 @@ const Sidebar = ({ isCollapsed, onToggle }) => {
                         <li>
                             <Link
                                 to="/"
+                                onClick={onNavigate}
                                 className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${isActive('/')
                                     ? 'bg-indigo-50 text-indigo-600 font-medium'
                                     : 'text-slate-600 hover:bg-slate-50'
@@ -149,6 +150,7 @@ const Sidebar = ({ isCollapsed, onToggle }) => {
                         <li>
                             <Link
                                 to="/submit"
+                                onClick={onNavigate}
                                 className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${isActive('/submit')
                                     ? 'bg-indigo-50 text-indigo-600 font-medium'
                                     : 'text-slate-600 hover:bg-slate-50'
@@ -195,7 +197,10 @@ const Sidebar = ({ isCollapsed, onToggle }) => {
                             {teams.map((team) => (
                                 <li key={team.id}>
                                     <button
-                                        onClick={() => navigate(`/teams/${team.id}`)}
+                                        onClick={() => {
+                                            navigate(`/teams/${team.id}`);
+                                            onNavigate?.();
+                                        }}
                                         onContextMenu={(e) => handleContextMenu(e, team)}
                                         className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors text-left group ${isActive(`/teams/${team.id}`)
                                             ? 'bg-indigo-50 text-indigo-600 font-medium'
@@ -224,6 +229,7 @@ const Sidebar = ({ isCollapsed, onToggle }) => {
                 <div className="mt-auto pt-4 border-t border-slate-100">
                     <Link
                         to="/archived"
+                        onClick={onNavigate}
                         className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${isActive('/archived')
                             ? 'bg-amber-50 text-amber-600 font-medium'
                             : 'text-slate-600 hover:bg-slate-50'

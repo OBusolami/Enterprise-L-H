@@ -33,7 +33,7 @@ const ArchivedView = () => {
     };
 
     return (
-        <div className="space-y-8">
+        <div className="space-y-4 sm:space-y-6">
             <div className="flex items-center gap-4">
                 <Link to="/" className="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-500">
                     <ArrowLeft className="w-5 h-5" />
@@ -41,19 +41,19 @@ const ArchivedView = () => {
             </div>
 
             {loading ? (
-                <div className="flex justify-center p-12">
+                <div className="flex justify-center p-8 sm:p-12">
                     <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
                 </div>
             ) : error ? (
-                <div className="p-8 text-center bg-red-50 text-red-600 rounded-lg border border-red-100">
+                <div className="p-4 sm:p-6 text-center bg-red-50 text-red-600 rounded-lg border border-red-100">
                     Error loading archived resources: {error}
                 </div>
             ) : resources.length === 0 ? (
-                <div className="p-12 text-center bg-white rounded-xl border border-dashed border-gray-300">
+                <div className="p-8 sm:p-12 text-center bg-white rounded-xl border border-dashed border-gray-300">
                     <p className="text-gray-500">No archived resources yet.</p>
                 </div>
             ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-5">
                     {resources.map((resource) => (
                         <ResourceCard
                             key={resource.id}

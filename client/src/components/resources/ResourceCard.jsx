@@ -157,7 +157,7 @@ const ResourceCard = ({ resource, onDelete }) => {
         <div
             onContextMenu={handleContextMenu}
             className={cn(
-                "bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow p-5 flex flex-col gap-3 h-fit relative group",
+                "bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow p-3 sm:p-4 flex flex-col gap-2 sm:gap-3 h-fit relative group",
                 isDeleting && "opacity-50 pointer-events-none"
             )}
         >
