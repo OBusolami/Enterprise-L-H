@@ -207,7 +207,7 @@ const ResourceCard = ({ resource, onDelete }) => {
                     )}
                     title="Upvote"
                 >
-                    <ThumbsUp className={cn("w-5 h-5", userVote === 'up' && "fill-current")} />
+                    <ThumbsUp className={cn("w-4 h-4", userVote === 'up' && "fill-current")} />
                 </button>
                 <span className={cn(
                     "text-xs font-bold min-w-[20px] text-center",
@@ -223,7 +223,7 @@ const ResourceCard = ({ resource, onDelete }) => {
                     )}
                     title="Downvote"
                 >
-                    <ThumbsDown className={cn("w-5 h-5", userVote === 'down' && "fill-current")} />
+                    <ThumbsDown className={cn("w-4 h-4", userVote === 'down' && "fill-current")} />
                 </button>
             </div>
 
