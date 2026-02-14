@@ -51,7 +51,7 @@ const TeamView = () => {
 
     return (
         <div>
-            <div className="mb-4 sm:mb-6 border-b border-gray-100 pb-4 sm:pb-6">
+            <div className="mb-2 sm:mb-3 border-b border-gray-100 pb-2 sm:pb-3">
                 <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">{team.name}</h1>
                 {team.description && <p className="text-gray-600">{team.description}</p>}
 

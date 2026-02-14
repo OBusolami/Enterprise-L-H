@@ -50,7 +50,7 @@ const Layout = () => {
 
             {/* Main content */}
             <div className={`flex-1 overflow-y-auto bg-gray-50 transition-all duration-300 ${!isMobile && (isSidebarCollapsed ? 'ml-16' : 'ml-64')}`}>
-                <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 py-4 sm:py-6">
+                <div className="max-w-7xl mx-auto px-2 sm:px-3 py-2 sm:py-3">
                     <Outlet />
                 </div>
             </div>
