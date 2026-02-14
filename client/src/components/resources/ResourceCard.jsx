@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ExternalLink, Loader2, Bookmark, MoreVertical, Archive, ArrowBigUp, ArrowBigDown } from 'lucide-react';
+import { ExternalLink, Loader2, Bookmark, MoreVertical, Archive, ThumbsUp, ThumbsDown } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { getApiUrl } from '../../api/config';
 
@@ -168,43 +168,11 @@ const ResourceCard = ({ resource, onDelete }) => {
                 </div>
             </div>
 
-            {/* Header: Type/Category & Voting */}
-            <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                        {category}
-                    </span>
-                </div>
-
-                {/* Voting UI */}
-                <div className="flex items-center gap-1 bg-slate-50 px-2 py-1 rounded-lg border border-slate-100">
-                    <button
-                        onClick={() => handleVote('upvote')}
-                        className={cn(
-                            "p-1 rounded transition-colors",
-                            userVote === 'up' ? "text-indigo-600 bg-indigo-50" : "text-slate-400 hover:text-indigo-600 hover:bg-slate-100"
-                        )}
-                        title="Upvote"
-                    >
-                        <ArrowBigUp className={cn("w-5 h-5", userVote === 'up' && "fill-current")} />
-                    </button>
-                    <span className={cn(
-                        "text-xs font-bold min-w-[20px] text-center",
-                        (votes.up - votes.down) > 0 ? "text-green-600" : (votes.up - votes.down) < 0 ? "text-red-600" : "text-slate-500"
-                    )}>
-                        {votes.up - votes.down}
-                    </span>
-                    <button
-                        onClick={() => handleVote('downvote')}
-                        className={cn(
-                            "p-1 rounded transition-colors",
-                            userVote === 'down' ? "text-red-600 bg-red-50" : "text-slate-400 hover:text-red-600 hover:bg-slate-100"
-                        )}
-                        title="Downvote"
-                    >
-                        <ArrowBigDown className={cn("w-5 h-5", userVote === 'down' && "fill-current")} />
-                    </button>
-                </div>
+            {/* Header: Type/Category */}
+            <div className="flex items-center gap-2">
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                    {category}
+                </span>
             </div>
 
             {/* Main Content */}
@@ -228,6 +196,36 @@ const ResourceCard = ({ resource, onDelete }) => {
                     <p className="text-sm text-blue-800 italic">"{context_note}"</p>
                 </div>
             )}
+
+            {/* Voting UI - Bottom of Card */}
+            <div className="flex items-center justify-center gap-1 bg-slate-50 px-2 py-1 rounded-lg border border-slate-100 mt-3">
+                <button
+                    onClick={() => handleVote('upvote')}
+                    className={cn(
+                        "p-1 rounded transition-colors",
+                        userVote === 'up' ? "text-indigo-600 bg-indigo-50" : "text-slate-400 hover:text-indigo-600 hover:bg-slate-100"
+                    )}
+                    title="Upvote"
+                >
+                    <ThumbsUp className={cn("w-5 h-5", userVote === 'up' && "fill-current")} />
+                </button>
+                <span className={cn(
+                    "text-xs font-bold min-w-[20px] text-center",
+                    (votes.up - votes.down) > 0 ? "text-green-600" : (votes.up - votes.down) < 0 ? "text-red-600" : "text-slate-500"
+                )}>
+                    {votes.up - votes.down}
+                </span>
+                <button
+                    onClick={() => handleVote('downvote')}
+                    className={cn(
+                        "p-1 rounded transition-colors",
+                        userVote === 'down' ? "text-red-600 bg-red-50" : "text-slate-400 hover:text-red-600 hover:bg-slate-100"
+                    )}
+                    title="Downvote"
+                >
+                    <ThumbsDown className={cn("w-5 h-5", userVote === 'down' && "fill-current")} />
+                </button>
+            </div>
 
             {/* Resource Context Menu */}
             {contextMenu.visible && (
