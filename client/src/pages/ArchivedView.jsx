@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { Loader2, Archive, ArrowLeft } from 'lucide-react';
+import { Loader2, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ResourceCard from '../components/resources/ResourceCard';
 import { getApiUrl } from '../api/config';
@@ -38,13 +37,6 @@ const ArchivedView = () => {
                 <Link to="/" className="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-500">
                     <ArrowLeft className="w-5 h-5" />
                 </Link>
-                <div>
-                    <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
-                        <Archive className="w-8 h-8 text-amber-500" />
-                        Archived Resources
-                    </h1>
-                    <p className="text-gray-500 mt-1">Resources that have been moved out of the main dashboard.</p>
-                </div>
             </div>
 
             {loading ? (
@@ -57,7 +49,6 @@ const ArchivedView = () => {
                 </div>
             ) : resources.length === 0 ? (
                 <div className="p-12 text-center bg-white rounded-xl border border-dashed border-gray-300">
-                    <Archive className="w-12 h-12 text-gray-300 mx-auto mb-4" />
                     <p className="text-gray-500">No archived resources yet.</p>
                 </div>
             ) : (

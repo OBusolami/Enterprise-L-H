@@ -246,4 +246,44 @@ router.post('/batch', async (req, res) => {
     }
 });
 
+// PATCH /api/resources/:id/vote - Handle voting
+router.patch('/:id/vote', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { voteType, action } = req.body; // voteType: 'upvote' | 'downvote', action: 'vote' | 'unvote'
+
+        if (!voteType || !['upvote', 'downvote'].includes(voteType)) {
+            return res.status(400).json({ error: 'Invalid vote type' });
+        }
+
+        const column = voteType === 'upvote' ? 'upvote_count' : 'downvote_count';
+        const increment = action === 'vote' ? 1 : -1;
+
+        // Fetch current value
+        const { data: resource, error: fetchError } = await supabase
+            .from('resources')
+            .select(column)
+            .eq('id', id)
+            .single();
+
+        if (fetchError) throw fetchError;
+
+        const newValue = Math.max(0, (resource[column] || 0) + increment);
+
+        // Update with new value
+        const { data: updatedData, error: updateError } = await supabase
+            .from('resources')
+            .update({ [column]: newValue })
+            .eq('id', id)
+            .select();
+
+        if (updateError) throw updateError;
+
+        res.json({ message: 'Vote recorded', data: updatedData[0] });
+    } catch (error) {
+        console.error('Error voting:', error);
+        res.status(500).json({ error: 'Failed to record vote' });
+    }
+});
+
 module.exports = router;

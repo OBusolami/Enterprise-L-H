@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { BookOpen, PlusCircle, Users, Plus, LogOut, User as UserIcon, Archive } from 'lucide-react';
+import { BookOpen, PlusCircle, Users, Plus, LogOut, User as UserIcon } from 'lucide-react';
 import axios from 'axios';
 import { useState, useEffect, useRef } from 'react';
 import { getApiUrl } from '../../api/config';
