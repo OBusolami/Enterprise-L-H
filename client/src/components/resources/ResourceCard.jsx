@@ -157,7 +157,7 @@ const ResourceCard = ({ resource, onDelete }) => {
         <div
             onContextMenu={handleContextMenu}
             className={cn(
-                "bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow p-3 sm:p-4 flex flex-col gap-2 sm:gap-3 h-fit relative group",
+                "bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow p-3 sm:p-4 flex flex-col gap-2 sm:gap-3 h-[280px] relative group",
                 isDeleting && "opacity-50 pointer-events-none"
             )}
         >
@@ -176,11 +176,11 @@ const ResourceCard = ({ resource, onDelete }) => {
             </div>
 
             {/* Main Content */}
-            <div>
+            <div className="flex-1 overflow-hidden">
                 <a href={url} target="_blank" rel="noopener noreferrer" className="group">
-                    <h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 flex items-start gap-2">
+                    <h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 flex items-start gap-2 line-clamp-2">
                         {title}
-                        <ExternalLink className="w-4 h-4 text-gray-400 mt-1 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        <ExternalLink className="w-4 h-4 text-gray-400 mt-1 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0" />
                     </h3>
                 </a>
                 <div className="flex items-center gap-3 mt-1">
